@@ -1,15 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
-import PersonTable from "features/PersonManager/components/PersonTable";
 
 MainPage.propTypes = {};
 
 function MainPage(props) {
-  return (
-    <div>
-      <PersonTable />
-    </div>
-  );
+  return <div id="home-main-page">trang chu home</div>;
 }
 
 export default MainPage;

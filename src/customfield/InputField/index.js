@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Col, Input, Row, Tag, Typography } from "antd";
 import { ErrorMessage } from "formik";
+import TagCustom from "components/TagCustom";
 
 const { Text } = Typography;
 
@@ -14,6 +15,7 @@ InputField.propTypes = {
   disabled: PropTypes.bool,
   titleCol: PropTypes.number,
   inputCol: PropTypes.number,
+  size: PropTypes.string,
 };
 
 InputField.defaultProps = {
@@ -23,8 +25,9 @@ InputField.defaultProps = {
   maxLength: 50,
   isRequire: false,
   disabled: false,
-  titleCol: 8,
-  inputCol: 16,
+  titleCol: 24,
+  inputCol: 24,
+  size: "middle",
 };
 
 function InputField(props) {
@@ -38,6 +41,7 @@ function InputField(props) {
     isRequire = false,
     titleCol = 8,
     inputCol = 16,
+    size,
   } = props;
   const { name } = field;
 
@@ -57,9 +61,10 @@ function InputField(props) {
           maxLength={maxLength}
           placeholder={placeholder}
           disabled={disabled}
+          size={size}
         />
         <ErrorMessage name={name}>
-          {(text) => <Tag color="red">{text}</Tag>}
+          {(text) => <TagCustom title={text} color="error" />}
         </ErrorMessage>
       </Col>
     </Row>

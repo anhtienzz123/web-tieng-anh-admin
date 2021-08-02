@@ -1,10 +1,11 @@
-import React, { useEffect } from "react";
-import PropTypes from "prop-types";
-import { Switch, Route, useRouteMatch, Redirect } from "react-router-dom";
-import MainPage from "./pages/MainPage";
 import { Spin } from "antd";
-import { useSelector } from "react-redux";
 import NotFoundPage from "components/NotFoundPage";
+import React from "react";
+import { useSelector } from "react-redux";
+import { Route, Switch, useRouteMatch } from "react-router-dom";
+import CategoryPage from "./pages/CategoryPage";
+import ContentUpdatePage from "./pages/ContentUpdatePage";
+import MainPage from "./pages/MainPage";
 
 Blog.propTypes = {};
 
@@ -16,6 +17,12 @@ function Blog(props) {
     <Spin spinning={isLoading}>
       <Switch>
         <Route exact path={url} component={MainPage} />
+        <Route
+          path={`${url}/:blogId/update-content`}
+          component={ContentUpdatePage}
+        />
+        <Route path={`${url}/categories`} component={CategoryPage} />
+        <Route component={NotFoundPage} />
       </Switch>
     </Spin>
   );

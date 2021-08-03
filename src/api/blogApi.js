@@ -29,6 +29,9 @@ const blogApi = {
   updateBlogImage: (blogId, image) => {
     return axiosClient.put(`${ADMIN_URL}/${blogId}/image`, image);
   },
+  deleteBlog: (blogId) => {
+    return axiosClient.delete(`${ADMIN_URL}/${blogId}`);
+  },
 };
 
 export default blogApi;

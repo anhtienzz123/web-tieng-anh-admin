@@ -15,8 +15,10 @@ import "./style.scss";
 
 function MainPage(props) {
   const dispatch = useDispatch();
-  const { blogs, isFormVisible } = useSelector((state) => state.blog);
-  const { data, page, totalPages } = blogs;
+  const { blogsPage, blogs, isFormVisible } = useSelector(
+    (state) => state.blog
+  );
+  const { page, totalPages } = blogsPage;
   const { blogCategories } = useSelector((state) => state.blog);
 
   const [query, setQuery] = useState({
@@ -66,7 +68,7 @@ function MainPage(props) {
       <Space direction="vertical" style={{ width: "100%" }}>
         <div className="blog-main-page__table">
           <BlogsTable
-            blogs={commonFuc.addSTTForList(data, query.page * query.size)}
+            blogs={commonFuc.addSTTForList(blogs, query.page * query.size)}
           />
         </div>
         <div style={{ textAlign: "right" }}>

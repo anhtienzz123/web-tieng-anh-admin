@@ -20,7 +20,7 @@ function BlogSearch({ categories, onChange }) {
   const [categorySlug, setCategorySlug] = useState("");
 
   const handleCategoryChange = (categoryId) => {
-    if (categoryId === "0") {
+    if (categoryId === 0) {
       setCategorySlug("");
       return;
     }
@@ -54,11 +54,11 @@ function BlogSearch({ categories, onChange }) {
       <Col span={8}>
         <Text strong>Danh mục: </Text>{" "}
         <Select
-          defaultValue={1}
+          defaultValue={0}
           style={{ width: "80%" }}
           onChange={handleCategoryChange}
         >
-          <Option value="0" key={-1}>
+          <Option value={0} key={-1}>
             -- Tất cả --
           </Option>
           {categories.map((categoryEle, index) => {

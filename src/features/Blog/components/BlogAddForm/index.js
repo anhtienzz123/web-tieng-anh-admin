@@ -2,11 +2,11 @@ import { Divider, message, Space } from "antd";
 import Modal from "antd/lib/modal/Modal";
 import blogApi from "api/blogApi";
 import ModalTitle from "components/ModalTitle";
-import MyEditor from "components/MyEditor";
+import EditorField from "customfield/EditorField";
 import ImageField from "customfield/ImageField";
 import InputField from "customfield/InputField";
 import SelectedField from "customfield/SelectField";
-import { setLoading } from "features/Blog/blogSlice";
+import { setLoading, updateBlog, addBlog } from "features/Blog/blogSlice";
 import { blogValues } from "features/Blog/initialAndValidateValues";
 import { FastField, Form, Formik } from "formik";
 import PropTypes from "prop-types";
@@ -34,32 +34,53 @@ function BlogAddForm({ onFormVisble }) {
   };
 
   const handleFormSubmit = async (values, actions) => {
-    dispatch(setLoading(true));
-    const { id, name, description, categoryId, image } = values;
+    const { id, image } = values;
 
-    const blog = { id, name, description, categoryId };
+    const blog = { ...values };
+    // không gởi lên image
+    delete blog.image;
 
     let blogIdWasSave = id;
-    // cập nhật
-    if (id) {
-      const resData = await blogApi.updateBlog(id, blog);
 
-      // nếu như có lỗi
-      if (resData.error) actions.setErrors(resData.error);
-      else message.success("Cập nhật thành công");
-    } else {
-      // thêm
-      const resData = await blogApi.addBlog(blog);
-      blogIdWasSave = resData.id;
-      // nếu như có lỗi
-      if (resData.error) actions.setErrors(resData.error);
-      else message.success("Thêm thành công");
+    try {
+      // nếu có id là cập nhật
+      if (id) await handleUpdate(blog, actions);
+      // không có id là thêm
+      else blogIdWasSave = await handleAdd(blog, actions);
+
+      // nếu có image thì mới upload
+      if (image && typeof image === "object")
+        blogApi.updateBlogImage(blogIdWasSave, image);
+
+      onFormVisble(false);
+    } catch (error) {
+      console.log("loi");
+    }
+  };
+
+  const handleUpdate = async (blog, actions) => {
+    const serverResult = await blogApi.updateBlog(blog.id, blog);
+
+    if (serverResult.error) {
+      actions.setErrors(serverResult.error);
+      throw new Error();
     }
 
-    if (image) blogApi.updateBlogImage(blogIdWasSave, image);
+    message.success("Cập nhật thành công");
+    dispatch(updateBlog(serverResult));
+  };
 
-    onFormVisble(false);
-    dispatch(setLoading(false));
+  const handleAdd = async (blog, actions) => {
+    const serverResult = await blogApi.addBlog(blog);
+
+    if (serverResult.error) {
+      actions.setErrors(serverResult.error);
+      throw new Error();
+    }
+
+    message.success("Thêm thành công");
+    dispatch(addBlog(serverResult));
+    return serverResult.id;
   };
 
   return (
@@ -98,7 +119,6 @@ function BlogAddForm({ onFormVisble }) {
                     isRequire={true}
                     maxLength={200}
                   />
-
                   <FastField
                     name="description"
                     component={InputField}
@@ -109,7 +129,6 @@ function BlogAddForm({ onFormVisble }) {
                     isRequire={true}
                     maxLength={500}
                   />
-
                   <FastField
                     name="image"
                     component={ImageField}
@@ -117,7 +136,6 @@ function BlogAddForm({ onFormVisble }) {
                     titleCol={6}
                     inputCol={18}
                   />
-
                   <FastField
                     name="categoryId"
                     component={SelectedField}
@@ -129,8 +147,12 @@ function BlogAddForm({ onFormVisble }) {
                     titleCol={6}
                     inputCol={18}
                   />
-
-                  <MyEditor />
+                  <FastField
+                    name="content"
+                    component={EditorField}
+                    title="Nội dung"
+                    placeholder="Nhập nội dung"
+                  />
                 </Space>
               </Form>
             );

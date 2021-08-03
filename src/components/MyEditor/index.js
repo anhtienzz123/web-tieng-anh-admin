@@ -1,41 +1,39 @@
+import { Button } from "antd";
+import PropTypes from "prop-types";
 import ImageUploader from "quill-image-uploader";
 import React, { useEffect, useState } from "react";
 import ReactQuill, { Quill } from "react-quill";
 
 Quill.register("modules/imageUploader", ImageUploader);
 
-function MyEditor(props) {
-  const [editorValue, setEditorValue] = useState("");
-  const [src, setSrc] = useState("");
+MyEditor.propTypes = {
+  content: PropTypes.string,
+  placeholder: PropTypes.string,
+  onChange: PropTypes.func,
+};
+
+MyEditor.defaultProps = {
+  content: "",
+  placeholder: "",
+  onChange: null,
+};
+
+function MyEditor({ content, placeholder, onChange }) {
   let quillObj;
 
-  const handleChange = (content, delta, source, editor) => {
-    console.log("html: ", content);
-    console.log("delta: ", delta);
-    console.log("source: ", source);
-    console.log("editor: ", editor.getContents());
+  const handleChange = (content) => {
+    if (!onChange) return;
 
-    const images = getImgUrls(editor.getContents());
-    console.log("images: ", images);
+    onChange(content);
   };
-
-  function getImgUrls(delta) {
-    if (!delta) return;
-    return delta.ops
-      .filter((i) => i.insert && i.insert.image)
-      .map((i) => i.insert.image);
-  }
-  const apiPostNewsImage = () => {};
 
   return (
     <div>
-      <img src={src} />
-
       <ReactQuill
         ref={(el) => {
           quillObj = el;
         }}
-        value={editorValue}
+        value={content}
         modules={{
           toolbar: {
             container: [
@@ -84,7 +82,7 @@ function MyEditor(props) {
             },
           },
         }}
-        placeholder="Add a description of your event"
+        placeholder={placeholder}
         onChange={(content, delta, source, editor) =>
           handleChange(content, delta, source, editor)
         }

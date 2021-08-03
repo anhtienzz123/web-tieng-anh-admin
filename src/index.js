@@ -7,6 +7,7 @@ import reportWebVitals from "./reportWebVitals";
 import "antd/dist/antd.css";
 import { Provider } from "react-redux";
 import store from "app/store";
+import "react-quill/dist/quill.snow.css";
 
 ReactDOM.render(
   <React.StrictMode>

@@ -66,7 +66,7 @@ function MainPage(props) {
           >
             {(formikProps) => {
               return (
-                <Form layout="horizontal">
+                <Form>
                   <Row gutter={[0, 16]}>
                     <Col span={24}>
                       <FastField
@@ -76,6 +76,8 @@ function MainPage(props) {
                         title="Tài khoản"
                         placeholder="Nhập tài khoản"
                         maxLength={50}
+                        titleCol={8}
+                        inputCol={16}
                       ></FastField>
                     </Col>
 
@@ -87,6 +89,8 @@ function MainPage(props) {
                         title="Mật khẩu"
                         placeholder="Nhập mật khẩu"
                         maxLength={200}
+                        titleCol={8}
+                        inputCol={16}
                       ></FastField>
                     </Col>
                     {isError ? (

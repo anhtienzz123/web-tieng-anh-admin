@@ -1,7 +1,9 @@
 import {
+  AppstoreAddOutlined,
   CarryOutOutlined,
   DashboardOutlined,
   ReadOutlined,
+  UnorderedListOutlined,
   UserOutlined,
   VideoCameraOutlined,
 } from "@ant-design/icons";
@@ -12,8 +14,23 @@ import { Link } from "react-router-dom";
 SiderBar.propTypes = {};
 
 const { Sider } = Layout;
+const { SubMenu } = Menu;
 
 const ADMIN_URL = "/admin";
+
+const renderBlogMenu = () => {
+  return (
+    <SubMenu key="blog" icon={<ReadOutlined />} title="Quản lý bài viết">
+      <Menu.Item key="blog1" icon={<UnorderedListOutlined />}>
+        <Link to={`${ADMIN_URL}/blogs`}>Bài viết</Link>
+      </Menu.Item>
+
+      <Menu.Item key="blog2" icon={<UnorderedListOutlined />}>
+        <Link to={`${ADMIN_URL}/blogs/categories`}>Danh mục</Link>
+      </Menu.Item>
+    </SubMenu>
+  );
+};
 
 function SiderBar(props) {
   const { name, roles } = useSelector((state) => state.global);
@@ -31,12 +48,7 @@ function SiderBar(props) {
     ];
 
     roles.forEach((roleEle) => {
-      if (roleEle === "ROLE_BLOG")
-        menus.push(
-          <Menu.Item key="2" icon={<ReadOutlined />}>
-            <Link to={`${ADMIN_URL}/blogs`}>Quản lý bài viết</Link>
-          </Menu.Item>
-        );
+      if (roleEle === "ROLE_BLOG") menus.push(renderBlogMenu());
       if (roleEle === "ROLE_EXAM")
         menus.push(
           <Menu.Item key="3" icon={<CarryOutOutlined />}>
@@ -69,9 +81,7 @@ function SiderBar(props) {
             <Menu.Item key="1" icon={<DashboardOutlined />}>
               <Link to={ADMIN_URL}>Trang chủ</Link>
             </Menu.Item>
-            <Menu.Item key="2" icon={<ReadOutlined />}>
-              <Link to={`${ADMIN_URL}/blogs`}>Quản lý bài viết</Link>
-            </Menu.Item>
+            {renderBlogMenu()}
             <Menu.Item key="3" icon={<CarryOutOutlined />}>
               <Link to={`${ADMIN_URL}/exams`}>Quản lý bài thi</Link>
             </Menu.Item>

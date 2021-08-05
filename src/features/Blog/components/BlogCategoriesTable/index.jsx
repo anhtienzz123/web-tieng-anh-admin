@@ -25,17 +25,7 @@ const columns = [
         dataIndex: 'action',
         key: 'action',
         align: 'center',
-        render: (text, record) => <BlogCategoriesAction />,
-    },
-
-];
-
-const data = [
-    {
-        key: '1',
-        stt: 1,
-        name: 'John Brown',
-
+        render: (text, record) => <BlogCategoriesAction categoryId={record.key} />,
     },
 
 ];

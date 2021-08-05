@@ -3,7 +3,7 @@ import { Button, Pagination, Space } from 'antd';
 import BlogCategoriesTable from 'features/Blog/components/BlogCategoriesTable';
 import React, { useEffect } from "react";
 import { useSelector, useDispatch, } from 'react-redux';
-import { fetchListBlogCategories, setCategoryFormVisible } from 'features/Blog/blogSlice';
+import { fetchListBlogCategories, setSelectedCategoryBlogDefault, setCategoryFormVisible } from 'features/Blog/blogSlice';
 import './style.scss';
 import BlogCategoriesAddForm from 'features/Blog/components/BlogCategoriesAddForm';
 
@@ -18,11 +18,8 @@ function CategoryPage(props) {
 
   const handleOnClick = () => {
     dispatch(setCategoryFormVisible(true));
+    dispatch(setSelectedCategoryBlogDefault());
   };
-
-  const handleFormVisble = (status) => {
-
-  }
 
 
 
@@ -45,8 +42,8 @@ function CategoryPage(props) {
           <BlogCategoriesTable />
         </div>
       </Space>
-      {/* onFormVisble={handleFormVisble} */}
-      <BlogCategoriesAddForm />
+
+      {isCategoryFormVisible && <BlogCategoriesAddForm />}
     </div>
   )
 }

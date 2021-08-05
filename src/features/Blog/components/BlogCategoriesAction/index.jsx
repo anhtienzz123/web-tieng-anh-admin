@@ -1,15 +1,54 @@
 import { DeleteTwoTone, EditTwoTone, InfoCircleTwoTone } from '@ant-design/icons';
-import { Button, Dropdown, Menu } from 'antd';
+import { Menu, Dropdown, Button, Modal, Typography, message } from "antd";
 import React from 'react';
 import './style.scss';
-BlogCategoriesAction.propTypes = {
+import PropTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import { setCategoryUpdate, setCategoryFormVisible, deleteCategory } from 'features/Blog/blogSlice';
+import { ExclamationCircleOutlined } from "@ant-design/icons";
+import { unwrapResult } from '@reduxjs/toolkit';
 
+BlogCategoriesAction.propTypes = {
+    categoryId: PropTypes.number,
 };
 
+
+BlogCategoriesAction.defaultProps = {
+    categoryId: require,
+}
+
+const { confirm, Text } = Modal;
+
+
 function BlogCategoriesAction(props) {
+    const { categoryId } = props;
+    const { blogCategories } = useSelector((state) => state.blog);
+    const dispatch = useDispatch()
+
+    const handleUpdate = () => {
+        const category = blogCategories.find(c => c.id === categoryId);
+        dispatch(setCategoryUpdate(category));
+        dispatch(setCategoryFormVisible(true));
+    }
+
+    const handleDelete = () => {
+        confirm({
+
+            content: "Bạn có chắc chắn xóa không ?",
+            async onOk() {
+                try {
+                    unwrapResult(await dispatch(deleteCategory({ categoryId })));
+                    message.success(`Xóa thành công`);
+                } catch (error) {
+                    message.error("Xóa thất bại");
+                }
+            }
+        })
+    }
+
     const menu = (
         <Menu>
-            <Menu.Item >
+            <Menu.Item onClick={handleUpdate} >
                 <div className="menu-adjust--center">
 
                     <EditTwoTone twoToneColor='#ad8b00' />
@@ -20,7 +59,7 @@ function BlogCategoriesAction(props) {
             </Menu.Item>
 
             <Menu.Divider />
-            <Menu.Item >
+            <Menu.Item onClick={handleDelete} >
                 <div className="menu-adjust--center">
 
                     <DeleteTwoTone twoToneColor='#a8071a' />

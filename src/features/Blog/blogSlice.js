@@ -1,7 +1,7 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { act } from "@testing-library/react";
 import blogApi from "api/blogApi";
-import blogCategoryApi from "api/blogCategory";
+import blogCategoryApi from "api/blogCategoryApi";
 import { blogValues } from "./initialAndValidateValues";
 
 const KEY = "blog";
@@ -57,6 +57,7 @@ const blogSlice = createSlice({
     blogCategories: [],
     isFormVisible: false,
     selectedBlog: blogValues.initial,
+    isCategoryFormVisible: false,
   },
   reducers: {
     setLoading: (state, action) => {
@@ -67,6 +68,9 @@ const blogSlice = createSlice({
     },
     setFormVisible: (state, action) => {
       state.isFormVisible = action.payload;
+    },
+    setCategoryFormVisible: (state, action) => {
+      state.isCategoryFormVisible = action.payload;
     },
     addBlog: (state, action) => {
       state.blogs.push(action.payload);
@@ -122,5 +126,6 @@ export const {
   setFormVisible,
   addBlog,
   updateBlog,
+  setCategoryFormVisible
 } = actions;
 export default reducer;

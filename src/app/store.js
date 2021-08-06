@@ -5,6 +5,7 @@ import blog from "features/Blog/blogSlice";
 import exam from "features/Exam/examSlice";
 import video from "features/Video/videoSlice";
 import user from "features/User/userSlice";
+import book from 'features/Book/bookSlice';
 
 const rootReducer = {
   global,
@@ -13,6 +14,7 @@ const rootReducer = {
   exam,
   video,
   user,
+  book
 };
 
 const store = configureStore({

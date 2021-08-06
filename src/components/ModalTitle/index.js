@@ -18,7 +18,7 @@ function ModalTitle(props) {
 
   return (
     <Title level={4} className="common-color" style={{ color: "#007c7e" }}>
-      <PlusOutlined />
+      <PlusOutlined /> &nbsp;
       {title.toUpperCase()}
     </Title>
   );

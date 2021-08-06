@@ -4,7 +4,7 @@ import meApi from "api/meApi";
 const KEY = "global";
 
 export const fetchNameRoles = createAsyncThunk(
-  `${global}/fetchNameRoles`,
+  `${KEY}/fetchNameRoles`,
   async (params, thunkApi) => {
     const nameRolesResult = await meApi.fetchNameRoles();
 

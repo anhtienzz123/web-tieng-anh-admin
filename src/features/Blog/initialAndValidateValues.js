@@ -18,3 +18,14 @@ export const blogValues = {
     // content: Yup.string().required("Nội dung không được bỏ trống"),
   }),
 };
+
+export const categoryValidation = {
+
+  initial: {
+    name: ''
+  },
+
+  validationSchema: Yup.object().shape({
+    name: Yup.string().required('Tên không được bỏ trống')
+  })
+}

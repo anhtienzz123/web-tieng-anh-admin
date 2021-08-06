@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 import { act } from "@testing-library/react";
 import blogApi from "api/blogApi";
-import blogCategoryApi from "api/blogCategory";
-import { blogValues } from "./initialAndValidateValues";
+import blogCategoryApi from "api/blogCategoryApi";
+import { blogValues, categoryValidation } from "./initialAndValidateValues";
+
 
 const KEY = "blog";
 
@@ -48,6 +49,15 @@ export const deleteBlog = createAsyncThunk(
   }
 );
 
+export const deleteCategory = createAsyncThunk(
+  'deteCategory',
+  async (params, thunkApi) => {
+    const { categoryId } = params;
+    await blogCategoryApi.deleteCategory(categoryId);
+    return categoryId;
+  }
+)
+
 const blogSlice = createSlice({
   name: KEY,
   initialState: {
@@ -57,6 +67,8 @@ const blogSlice = createSlice({
     blogCategories: [],
     isFormVisible: false,
     selectedBlog: blogValues.initial,
+    isCategoryFormVisible: false,
+    selectedCategoryBlog: categoryValidation.initial
   },
   reducers: {
     setLoading: (state, action) => {
@@ -68,8 +80,19 @@ const blogSlice = createSlice({
     setFormVisible: (state, action) => {
       state.isFormVisible = action.payload;
     },
+    setCategoryFormVisible: (state, action) => {
+      state.isCategoryFormVisible = action.payload;
+    },
     addBlog: (state, action) => {
       state.blogs.push(action.payload);
+    },
+    setSelectedCategoryBlogDefault: (state, action) => {
+      state.selectedCategoryBlog = categoryValidation.initial;
+    },
+
+    setCategoryUpdate: (state, action) => {
+      state.selectedCategoryBlog = action.payload;
+
     },
     updateBlog: (state, action) => {
       const blog = action.payload;
@@ -78,6 +101,14 @@ const blogSlice = createSlice({
 
       state.blogs[index] = blog;
     },
+    updateCategory: (state, action) => {
+      const category = action.payload;
+      const index = state.blogCategories.findIndex(element => category.id === element.id);
+      state.blogCategories[index] = category;
+    },
+    addCategory: (state, action) => {
+      state.blogCategories.push(action.payload);
+    }
   },
   extraReducers: {
     [fetchListBlogs.fulfilled]: (state, action) => {
@@ -112,6 +143,21 @@ const blogSlice = createSlice({
     [deleteBlog.rejected]: (state, action) => {
       state.isLoading = false;
     },
+
+    [deleteCategory.fulfilled]: (state, action) => {
+      state.isLoading = false;
+      state.blogCategories = state.blogCategories.filter(
+        element => element.id !== action.payload
+      );
+    },
+
+    [deleteCategory.pending]: (state, action) => {
+      state.isLoading = true;
+    },
+
+    [deleteCategory.rejected]: (state, action) => {
+      state.isLoading = false;
+    },
   },
 });
 
@@ -120,7 +166,12 @@ export const {
   setLoading,
   setSelectedBlogDefault,
   setFormVisible,
+  setCategoryUpdate,
   addBlog,
   updateBlog,
+  setCategoryFormVisible,
+  setSelectedCategoryBlogDefault,
+  addCategory,
+  updateCategory
 } = actions;
 export default reducer;

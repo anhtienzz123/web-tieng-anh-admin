@@ -42,15 +42,9 @@ function InputField(props) {
     titleCol = 8,
     inputCol = 16,
     size,
-    form
   } = props;
   const { name } = field;
 
-
-  console.log('field', field);
-  console.log('form', form);
-
-  console.log('Name', name);
 
   return (
     <Row>

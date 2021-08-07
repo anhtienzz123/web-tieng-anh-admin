@@ -1,24 +1,31 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { Button, Space } from 'antd';
 import BookTable from 'features/Book/components/BookTable';
 import { PlusCircleOutlined } from '@ant-design/icons';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import BookAddForm from 'features/Book/components/BookAddForm';
-
+import { setBookFormVisible, fetchBooks, setBookDefault } from '../../bookSlice';
 MainPage.propTypes = {
 
 };
 
-const handleAddClick = () => {
-
-
-};
 
 
 
 function MainPage(props) {
-    const { isBookFormVisible } = useSelector((state) => state.book);
+    const { isBookFormVisible, books } = useSelector((state) => state.book);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        dispatch(fetchBooks());
+    }, [])
+
+    const handleAddClick = () => {
+        dispatch(setBookFormVisible(true));
+        dispatch(setBookDefault());
+    };
+
     return (
         <div id='book-main-page'>
             <Space direction="vertical" style={{ width: "100%" }}>

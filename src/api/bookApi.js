@@ -3,7 +3,7 @@ const BASE_URL = '/admin/exams/books';
 
 const bookApi = {
     fetchBook: () => {
-        return axiosClient.get(BASE_URL);
+        return axiosClient.get('/books');
     },
 
     addBook: (book) => {
@@ -18,7 +18,7 @@ const bookApi = {
     },
 
     updateBookImage: (bookId, image) => {
-        return axiosClient.put(`${BASE_URL}/${bookId}`, image);
+        return axiosClient.put(`${BASE_URL}/${bookId}/image`, image);
     }
 
 

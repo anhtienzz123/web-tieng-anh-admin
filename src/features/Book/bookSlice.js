@@ -7,6 +7,8 @@ const bookSlice = createSlice({
     name: KEY,
     initialState: {
         isLoading: false,
+        isBookFormVisible: false,
+        books: []
     },
     reducers: {
         setLoading: (state, action) => {

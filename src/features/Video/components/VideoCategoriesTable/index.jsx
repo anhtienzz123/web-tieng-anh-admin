@@ -50,7 +50,7 @@ function VideoCategoriesTable(props) {
             dataSource={data}
             pagination={true}
             scroll={{ y: 420 }}
-            // style={{ height: '490px' }}
+            style={{ height: '538px' }}
         />
     );
 }

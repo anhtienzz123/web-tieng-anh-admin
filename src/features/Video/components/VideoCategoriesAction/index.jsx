@@ -6,6 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { ExclamationCircleOutlined } from "@ant-design/icons";
 import { unwrapResult } from '@reduxjs/toolkit';
 import './style.scss';
+import { deleteCategory, setCategoryFormVisible, setCategoryUpdate } from 'features/Video/videoSlice';
 VideoCategoriesAction.propTypes = {
     categoryId: PropTypes.number,
 };
@@ -19,27 +20,27 @@ function VideoCategoriesAction(props) {
     const { confirm, Text } = Modal;
     const { categoryId } = props;
     const { videoCategory } = useSelector((state) => state.video);
-    const dispatch = useDispatch()
+    const dispatch = useDispatch();
 
     const handleUpdate = () => {
-        // const category = blogCategories.find(c => c.id === categoryId);
-        // dispatch(setCategoryUpdate(category));
-        // dispatch(setCategoryFormVisible(true));
+        const category = videoCategory.find(c => c.id === categoryId);
+        dispatch(setCategoryUpdate(category));
+        dispatch(setCategoryFormVisible(true));
     }
 
     const handleDelete = () => {
-        // confirm({
+        confirm({
 
-        //     content: "Bạn có chắc chắn xóa không ?",
-        //     async onOk() {
-        //         try {
-        //             unwrapResult(await dispatch(deleteCategory({ categoryId })));
-        //             message.success(`Xóa thành công`);
-        //         } catch (error) {
-        //             message.error("Xóa thất bại");
-        //         }
-        //     }
-        // })
+            content: "Bạn có chắc chắn xóa không ?",
+            async onOk() {
+                try {
+                    unwrapResult(await dispatch(deleteCategory({ categoryId })));
+                    message.success(`Xóa thành công`);
+                } catch (error) {
+                    message.error("Xóa thất bại");
+                }
+            }
+        })
     }
 
     const menu = (

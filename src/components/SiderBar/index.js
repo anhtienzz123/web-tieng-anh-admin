@@ -95,6 +95,10 @@ function SiderBar(props) {
               <Link to={ADMIN_URL}>Trang chủ</Link>
             </Menu.Item>
             {renderBlogMenu()}
+
+            <Menu.Item key="6" icon={<CarryOutOutlined />}>
+              <Link to={`${ADMIN_URL}/books`}>Quản lý bộ đề</Link>
+            </Menu.Item>
             <Menu.Item key="3" icon={<CarryOutOutlined />}>
               <Link to={`${ADMIN_URL}/exams`}>Quản lý bài thi</Link>
             </Menu.Item>

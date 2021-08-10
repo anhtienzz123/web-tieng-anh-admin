@@ -5,18 +5,20 @@ import blog from "features/Blog/blogSlice";
 import exam from "features/Exam/examSlice";
 import video from "features/Video/videoSlice";
 import user from "features/User/userSlice";
+import course from "features/Course/courseSlice";
 
 const rootReducer = {
-  global,
-  login,
-  blog,
-  exam,
-  video,
-  user,
+	global,
+	login,
+	blog,
+	exam,
+	video,
+	user,
+	course,
 };
 
 const store = configureStore({
-  reducer: rootReducer,
+	reducer: rootReducer,
 });
 
 export default store;

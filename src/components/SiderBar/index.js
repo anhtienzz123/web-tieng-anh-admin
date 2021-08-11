@@ -46,6 +46,19 @@ const renderCourseMenu = () => {
 		</SubMenu>
 	);
 };
+const renderVideoMenu = () => {
+	return (
+		<SubMenu key="video" icon={<VideoCameraOutlined />} title="Quản lý Video">
+			<Menu.Item key="video-1" icon={<UnorderedListOutlined />}>
+				<Link to={`${ADMIN_URL}/videos`}>Video</Link>
+			</Menu.Item>
+
+			<Menu.Item key="video-2" icon={<UnorderedListOutlined />}>
+				<Link to={`${ADMIN_URL}/videos/categories`}>Danh mục</Link>
+			</Menu.Item>
+		</SubMenu>
+	);
+};
 
 function SiderBar(props) {
 	const { name, roles } = useSelector((state) => state.global);
@@ -73,12 +86,7 @@ function SiderBar(props) {
 						<Link to={`${ADMIN_URL}/exams`}>Quản lý bài thi</Link>
 					</Menu.Item>
 				);
-			if (roleEle === "ROLE_VIDEO")
-				menus.push(
-					<Menu.Item key="4" icon={<VideoCameraOutlined />}>
-						<Link to={`${ADMIN_URL}/videos`}>Quản lý video</Link>
-					</Menu.Item>
-				);
+			if (roleEle === "ROLE_VIDEO") menus.push(renderVideoMenu());
 		});
 
 		return menus;
@@ -101,11 +109,9 @@ function SiderBar(props) {
 						</Menu.Item>
 						{renderBlogMenu()}
 						{renderCourseMenu()}
+						{renderVideoMenu()}
 						<Menu.Item key="3" icon={<CarryOutOutlined />}>
 							<Link to={`${ADMIN_URL}/exams`}>Quản lý bài thi</Link>
-						</Menu.Item>
-						<Menu.Item key="4" icon={<VideoCameraOutlined />}>
-							<Link to={`${ADMIN_URL}/videos`}>Quản lý video</Link>
 						</Menu.Item>
 						<Menu.Item key="5" icon={<UserOutlined />}>
 							<Link to={`${ADMIN_URL}/users`}>Quản lý người dùng</Link>

@@ -1,7 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import courseApi from "api/courseApi";
-import topicApi from "api/topicApi";
-import wordApi from "api/wordApi";
+import { courseApi, topicApi, wordApi } from "api";
 import { courseValues, topicValues } from "./initialAndValidateValues";
 
 const KEY = "course";
@@ -87,6 +85,10 @@ const courseSlice = createSlice({
 		},
 	},
 	extraReducers: {
+		[fetchCourses.pending]: (state, action) => {
+			state.isLoading = true;
+		},
+
 		[fetchCourses.fulfilled]: (state, action) => {
 			state.isLoading = false;
 
@@ -94,24 +96,30 @@ const courseSlice = createSlice({
 			// state.courses = action.payload.data;
 		},
 
-		[fetchCourses.pending]: (state, action) => {
+		[fetchTopics.pending]: (state, action) => {
 			state.isLoading = true;
 		},
 		[fetchTopics.fulfilled]: (state, action) => {
 			state.topics = action.payload;
+			state.isLoading = false;
 		},
 
+		[fetchWordsByCourse.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 		[fetchWordsByCourse.fulfilled]: (state, action) => {
 			state.wordsPage = action.payload;
+			state.isLoading = false;
+		},
+
+		[fetchCourse.pending]: (state, action) => {
+			state.isLoading = true;
 		},
 
 		[fetchCourse.fulfilled]: (state, action) => {
 			state.isLoading = false;
 			state.coursesDetail = action.payload;
 			// state.selectedBlog = action.payload;
-		},
-		[fetchCourse.pending]: (state, action) => {
-			state.isLoading = true;
 		},
 		[deleteCourse.pending]: (state, action) => {
 			state.isLoading = true;

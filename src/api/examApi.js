@@ -1,8 +1,8 @@
 import axiosClient from "./axiosClient";
 
-const BASE_URL = "/admin/videos";
+const BASE_URL = "/admin/exams";
 
-const videoApi = {
+const examApi = {
 	fetchVideos: (params) => {
 		return axiosClient.get("/videos", { params });
 	},
@@ -38,4 +38,4 @@ const videoApi = {
 	},
 };
 
-export default videoApi;
+export default examApi;

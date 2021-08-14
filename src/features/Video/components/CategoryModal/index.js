@@ -22,7 +22,6 @@ function CategoryModal(props) {
 	const handleSubmit = async (values) => {
 		const { id, name } = values;
 
-		console.log(id);
 		let response;
 		if (isAddMode) {
 			response = await videoCategoryApi.addVideoCategory({ name });

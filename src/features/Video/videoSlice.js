@@ -56,9 +56,9 @@ export const deleteVideoWord = createAsyncThunk(
 export const deleteSubtitle = createAsyncThunk(
 	`${KEY}/deleteSubtitle`,
 	async (params, thunkApi) => {
-		const { subtitleId } = params;
-		await subtitleApi.deleteSubtitle(subtitleId);
-		return subtitleId;
+		const { videoId } = params;
+		await subtitleApi.deleteSubtitle(videoId);
+		return videoId;
 	}
 );
 

@@ -6,33 +6,44 @@ import {
 } from "@ant-design/icons";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { Button, Dropdown, Menu, message, Modal } from "antd";
-import courseApi from "api/courseApi";
-import { deleteWord, fetchWordsByCourse } from "features/Course/courseSlice";
+import { videoApi } from "api";
+import {
+	deleteVideo,
+	fetchVideo,
+	fetchVideos,
+	setLoading,
+} from "features/Video/videoSlice";
 import PropTypes from "prop-types";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useHistory } from "react-router-dom";
 
 const { confirm, Text } = Modal;
 
-function WordAction(props) {
-	const { coursesDetail } = useSelector((state) => state.course);
-	const {
-		word,
-		setInitialValue,
-		setIsModalVisible,
-		setIsAddMode,
-		setIsDetailViewMode,
-		query,
-	} = props;
+function VideoAction(props) {
+	const { videoInf, setInitialValue, setIsModalVisible, setIsAddMode, query } =
+		props;
+
+	const { videoDetails } = useSelector((state) => state.video);
+	const history = useHistory();
 	const dispatch = useDispatch();
 
-	const handleOnDetailViewClick = () => {
-		setIsDetailViewMode(true);
-		setInitialValue(word);
+	const handleOnDetailClick = () => {
+		history.push(`/admin/videos/${videoInf.slug}`);
 	};
 
-	const handleOnUpdateClick = () => {
-		setInitialValue(word);
+	const handleOnUpdateClick = async () => {
+		dispatch(setLoading(true));
+		const response = await videoApi.fetchVideo(videoInf.slug);
+		console.log({ response });
+		const categoryId = response.categoryId;
+		const description = response.description;
+		const video = response.url;
+
+		const videoUpdate = { ...videoInf, categoryId, description, video };
+		console.log({ videoUpdate });
+		dispatch(setLoading(false));
+		setInitialValue(videoUpdate);
 		setIsAddMode(false);
 		setIsModalVisible(true);
 	};
@@ -40,13 +51,12 @@ function WordAction(props) {
 	const handleOnDeleteClick = async () => {
 		confirm({
 			icon: <ExclamationCircleOutlined />,
-			content: "Bạn có muốn xóa từ này không ?",
+			content: "Bạn có muốn xóa video này không ?",
 			async onOk() {
 				try {
-					await courseApi.deleteFromCourse(coursesDetail.id, word.id);
-					unwrapResult(await dispatch(deleteWord({ wordId: word.id })));
+					unwrapResult(await dispatch(deleteVideo({ videoId: videoInf.id })));
 					message.success("Xóa thành công");
-					dispatch(fetchWordsByCourse(query));
+					dispatch(fetchVideos(query));
 				} catch (error) {
 					message.error("Xóa thất bại");
 				}
@@ -59,7 +69,7 @@ function WordAction(props) {
 
 	const menu = (
 		<Menu>
-			<Menu.Item onClick={handleOnDetailViewClick}>
+			<Menu.Item onClick={handleOnDetailClick}>
 				<div className="menu-adjust--center">
 					<InfoCircleTwoTone />
 					<span className="menu-title">Xem chi tiết</span>
@@ -92,20 +102,20 @@ function WordAction(props) {
 	);
 }
 
-WordAction.propTypes = {
-	word: PropTypes.object,
+VideoAction.propTypes = {
+	blogId: PropTypes.number,
+	videoInf: PropTypes.object,
 	setInitialValue: PropTypes.func,
 	setIsModalVisible: PropTypes.func,
 	setIsAddMode: PropTypes.func,
-	setIsDetailViewMode: PropTypes.func,
 };
 
-WordAction.defaultProps = {
-	word: {},
+VideoAction.defaultProps = {
+	blogId: 0,
+	videoInf: {},
 	setInitialValue: null,
 	setIsModalVisible: null,
 	setIsAddMode: null,
-	setIsDetailViewMode: null,
 };
 
-export default WordAction;
+export default VideoAction;

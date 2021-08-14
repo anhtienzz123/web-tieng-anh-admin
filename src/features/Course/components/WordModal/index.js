@@ -164,7 +164,7 @@ function WordModal(props) {
 									title="Âm thanh"
 									titleCol={6}
 									inputCol={18}
-									fileType="audio/*,.mp3"
+									fileType="audio/*"
 								/>
 								<FastField
 									name="image"

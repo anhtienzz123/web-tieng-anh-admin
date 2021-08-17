@@ -4,6 +4,7 @@ import AuthorizeRoute from "components/AuthorizeRoute";
 import NotFoundPage from "components/NotFoundPage";
 import SiderBar from "components/SiderBar";
 import Blog from "features/Blog";
+import Book from "features/Book";
 import Course from "features/Course";
 import Exam from "features/Exam";
 import Home from "features/Home";
@@ -68,6 +69,12 @@ function AdminLayout(props) {
 										path={`${url}/courses`}
 										component={Course}
 										role="ROLE_COURSE"
+									/>
+
+									<AuthorizeRoute
+										path={`${url}/books`}
+										component={Book}
+										role="ROLE_BOOK"
 									/>
 
 									<AuthorizeRoute

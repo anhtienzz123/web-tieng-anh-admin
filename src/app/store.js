@@ -6,6 +6,7 @@ import exam from "features/Exam/examSlice";
 import video from "features/Video/videoSlice";
 import user from "features/User/userSlice";
 import course from "features/Course/courseSlice";
+import book from "features/Book/bookSlice";
 
 const rootReducer = {
 	global,
@@ -14,6 +15,7 @@ const rootReducer = {
 	exam,
 	video,
 	user,
+	book,
 	course,
 };
 

@@ -57,14 +57,14 @@ function UserAction(props) {
 		<Menu>
 			<Menu.Item onClick={handleOnUpdateRoleClick}>
 				<div className="menu-adjust--center">
-					<InfoCircleTwoTone />
+					<EditTwoTone twoToneColor="#ad8b00" />
 					<span className="menu-title">Thêm quyền</span>
 				</div>
 			</Menu.Item>
 			<Menu.Divider />
 			<Menu.Item onClick={handleOnAdminRoleClick}>
 				<div className="menu-adjust--center">
-					<EditTwoTone twoToneColor="#ad8b00" />
+					<InfoCircleTwoTone />
 					<span className="menu-title">Đặt quyền Admin</span>
 				</div>
 			</Menu.Item>

@@ -3,38 +3,19 @@ import axiosClient from "./axiosClient";
 const BASE_URL = "/admin/exams/paragraphs";
 
 const paragraphApi = {
-	fetchVideos: (params) => {
-		return axiosClient.get("/videos", { params });
-	},
-
-	fetchVideo: (slug) => {
-		const url = `/videos/${slug}`;
-		return axiosClient.get(url);
-	},
-
-	addVideo: (video) => {
-		return axiosClient.post(BASE_URL, video);
-	},
-
-	updateVideo: (id, video) => {
+	updateParagraph: (id, paragraph) => {
 		const url = `${BASE_URL}/${id}`;
-		return axiosClient.put(url, video);
+		return axiosClient.put(url, paragraph);
 	},
 
-	deleteVideo: (id) => {
-		const url = `${BASE_URL}/${id}`;
-		return axiosClient.delete(url);
-	},
-
-	updateVideoImage: (id, image) => {
+	updateParagraphImage: (id, image) => {
 		const url = `${BASE_URL}/${id}/image`;
 		return axiosClient.put(url, image);
 	},
-	updateVideoFile: (id, video) => {
-		const url = `${BASE_URL}/${id}/video`;
-		console.log(url);
 
-		return axiosClient.put(url, video);
+	updateParagraphAudio: (id, audio) => {
+		const url = `${BASE_URL}/${id}/audio`;
+		return axiosClient.put(url, audio);
 	},
 };
 

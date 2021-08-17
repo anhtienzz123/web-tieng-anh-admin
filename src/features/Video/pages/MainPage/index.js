@@ -1,7 +1,6 @@
 import { PlusCircleOutlined } from "@ant-design/icons";
 import { Button, Col, Pagination, Row, Space } from "antd";
 import { videoCategoryApi } from "api";
-import { courseValues } from "features/Course/initialAndValidateValues";
 import VideoModal from "features/Video/components/VideoModal";
 import VideoSearch from "features/Video/components/VideoSearch";
 import VideoTable from "features/Video/components/VideoTable";

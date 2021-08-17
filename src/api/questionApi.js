@@ -3,38 +3,24 @@ import axiosClient from "./axiosClient";
 const BASE_URL = "/admin/exams/questions";
 
 const questionApi = {
-	fetchVideos: (params) => {
-		return axiosClient.get("/videos", { params });
+	fetchQuestions: (params) => {
+		return axiosClient.get(BASE_URL, { params });
 	},
 
-	fetchVideo: (slug) => {
-		const url = `/videos/${slug}`;
-		return axiosClient.get(url);
-	},
-
-	addVideo: (video) => {
-		return axiosClient.post(BASE_URL, video);
-	},
-
-	updateVideo: (id, video) => {
+	updateQuestion: (id, question) => {
 		const url = `${BASE_URL}/${id}`;
-		return axiosClient.put(url, video);
+		return axiosClient.put(url, question);
 	},
 
-	deleteVideo: (id) => {
-		const url = `${BASE_URL}/${id}`;
-		return axiosClient.delete(url);
-	},
-
-	updateVideoImage: (id, image) => {
+	updateQuestionImage: (id, image) => {
 		const url = `${BASE_URL}/${id}/image`;
 		return axiosClient.put(url, image);
 	},
-	updateVideoFile: (id, video) => {
-		const url = `${BASE_URL}/${id}/video`;
-		console.log(url);
 
-		return axiosClient.put(url, video);
+	updateQuestionAudio: (id, audio) => {
+		console.log(audio);
+		const url = `${BASE_URL}/${id}/audio`;
+		return axiosClient.put(url, audio);
 	},
 };
 

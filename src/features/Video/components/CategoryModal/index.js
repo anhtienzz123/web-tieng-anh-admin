@@ -30,7 +30,10 @@ function CategoryModal(props) {
 		}
 
 		if (response.error) {
-			message.error(response.error.name);
+			const error = response.error;
+			for (const property in error) {
+				message.error(error[property]);
+			}
 		} else {
 			message.success(`${isAddMode ? "Thêm" : "Cập nhật"} thành công`);
 			handleCancel();

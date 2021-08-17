@@ -1,57 +1,58 @@
 import { EditOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, message, Row, Space, Spin } from "antd";
 import Modal from "antd/lib/modal/Modal";
-import { courseApi } from "api";
+import { subtitleApi } from "api";
 import ModalTitle from "components/ModalTitle";
+import { InputField } from "customfield";
 import {
-	ImageField,
-	InputField,
-	SelectedField,
-	TextAreaField,
-} from "customfield";
-import { fetchCourses } from "features/Course/courseSlice";
-import { courseValues } from "features/Course/initialAndValidateValues";
+	subtitleValues,
+	videoValues,
+} from "features/Video/initialAndValidateValues";
+import { fetchVideo } from "features/Video/videoSlice";
 import { FastField, Form, Formik } from "formik";
 import PropTypes from "prop-types";
 import React from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
 
-function CourseModal(props) {
+function SubtitleModal(props) {
 	const dispatch = useDispatch();
-	const { topics } = useSelector((state) => state.course);
-	const { isModalVisible, setIsModalVisible, isAddMode, initialValue, query } =
-		props;
+	const { slug } = useParams();
+	const {
+		isModalVisible,
+		setIsModalVisible,
+		isAddMode,
+		initialValue,
+		videoId,
+	} = props;
 
 	const handleCancel = () => {
 		setIsModalVisible(false);
 	};
 
 	const handleSubmit = async (values) => {
-		const { id, image } = values;
+		const { id } = values;
 
-		const course = { ...values };
-		delete course.image;
+		const subtitle = { ...values, videoId };
 
 		let response;
-
 		if (isAddMode) {
-			response = await courseApi.addCourse(course);
+			response = await subtitleApi.addSubtitle(subtitle);
 		} else {
-			response = await courseApi.updateCourse(id, course);
+			response = await subtitleApi.updateSubtitle(id, subtitle);
 		}
 
 		if (response.error) {
-			message.error(response.error.name);
-		} else {
-			message.info(typeof image);
-			if (image && typeof image === "object") {
-				const courseId = isAddMode ? response.id : id;
-				await courseApi.updateCourseImage(courseId, image);
+			const error = response.error;
+			for (const property in error) {
+				message.error(error[property]);
 			}
+		} else {
 			message.success(`${isAddMode ? "Thêm" : "Cập nhật"} thành công`);
 			handleCancel();
 		}
-		dispatch(fetchCourses(query));
+
+		dispatch(fetchVideo(slug));
 	};
 
 	return (
@@ -66,17 +67,16 @@ function CourseModal(props) {
 				visible={isModalVisible}
 				footer={null}
 				onCancel={handleCancel}
-				style={{ top: 30 }}
-				width={1000}
 			>
 				<Formik
 					initialValues={initialValue}
-					validationSchema={courseValues.validationSchema}
+					validationSchema={subtitleValues.validationSchema}
 					onSubmit={handleSubmit}
 					enableReinitialize
 				>
 					{(formikProps) => {
 						const { values, errors, touched, isSubmitting } = formikProps;
+						console.log(values);
 						return (
 							<Form>
 								<Space
@@ -86,42 +86,34 @@ function CourseModal(props) {
 								>
 									<FastField component={InputField} name="id" type="hidden" />
 									<FastField
-										name="name"
+										name="content"
 										component={InputField}
-										title="Tên khóa học"
+										title="Nội dung"
 										titleCol={6}
 										maxLength={200}
 										inputCol={18}
 										isRequire={true}
 									/>
+
 									<FastField
-										name="topicId"
-										component={SelectedField}
-										title="Chủ đề"
-										options={topics.map((topic) => ({
-											key: topic.id,
-											value: topic.name,
-										}))}
+										name="start"
+										component={InputField}
+										title="Bắt đầu"
 										titleCol={6}
+										maxLength={200}
 										inputCol={18}
 										isRequire={true}
+										type="number"
 									/>
 									<FastField
-										name="description"
-										component={TextAreaField}
-										title="Mô tả"
-										maxLength={500}
+										name="end"
+										component={InputField}
+										title="Kết thúc"
 										titleCol={6}
+										maxLength={200}
 										inputCol={18}
 										isRequire={true}
-										rows={5}
-									/>
-									<FastField
-										name="image"
-										component={ImageField}
-										title="Ảnh"
-										titleCol={6}
-										inputCol={18}
+										type="number"
 									/>
 								</Space>
 								<Row justify="end" style={{ marginTop: "20px" }}>
@@ -153,24 +145,19 @@ function CourseModal(props) {
 		</div>
 	);
 }
-CourseModal.propTypes = {
+SubtitleModal.propTypes = {
 	isModalVisible: PropTypes.bool,
 	setIsModalVisible: PropTypes.func,
 	isAddMode: PropTypes.bool,
 	initialValue: PropTypes.object,
-	query: PropTypes.object,
+	videoId: PropTypes.number,
 };
 
-CourseModal.defaultProps = {
+SubtitleModal.defaultProps = {
 	isModalVisible: false,
 	setIsModalVisible: null,
 	isAddMode: true,
-	initialValue: courseValues.initial,
-	initialValue: {
-		name: "",
-		topicSlug: "",
-		page: 0,
-		size: 10,
-	},
+	initialValue: videoValues.initial,
+	videoId: 0,
 };
-export default CourseModal;
+export default SubtitleModal;

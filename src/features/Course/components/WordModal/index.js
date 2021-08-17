@@ -1,8 +1,7 @@
-import { EditOutlined, PlusOutlined } from "@ant-design/icons";
+import { EditOutlined, LoadingOutlined, PlusOutlined } from "@ant-design/icons";
 import { Button, Col, message, Row, Space, Spin } from "antd";
 import Modal from "antd/lib/modal/Modal";
-import courseApi from "api/courseApi";
-import wordApi from "api/wordApi";
+import { courseApi, wordApi } from "api";
 import ModalTitle from "components/ModalTitle";
 import {
 	ImageField,
@@ -165,7 +164,7 @@ function WordModal(props) {
 									title="Âm thanh"
 									titleCol={6}
 									inputCol={18}
-									fileType="audio/*,.mp3"
+									fileType="audio/*"
 								/>
 								<FastField
 									name="image"
@@ -181,7 +180,13 @@ function WordModal(props) {
 										<Button onClick={handleCancel}>Hủy</Button>
 
 										<Button htmlType="submit" type="primary">
-											{isSubmitting && <Spin />}
+											{isSubmitting && (
+												<Spin
+													indicator={
+														<LoadingOutlined style={{ color: "white" }} spin />
+													}
+												/>
+											)}
 											{isAddMode ? "Thêm" : "Lưu"}
 										</Button>
 									</Space>

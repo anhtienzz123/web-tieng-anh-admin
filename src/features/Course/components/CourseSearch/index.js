@@ -1,6 +1,6 @@
 import { Col, Input, Row, Select, Typography } from "antd";
 import PropTypes from "prop-types";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 const { Text } = Typography;
 const { Option } = Select;
@@ -18,13 +18,20 @@ CourseSearch.defaultProps = {
 function CourseSearch({ topics, onChange }) {
 	const [name, setName] = useState("");
 	const [topicSlug, setTopicSlug] = useState("");
+	const typingTimeOutRef = useRef(null);
 
 	const handleTopicChange = (slug) => {
 		setTopicSlug(slug === 0 ? "" : slug);
 	};
 
 	const handleNameChange = (e) => {
-		setName(e.target.value);
+		const value = e.target.value;
+		if (typingTimeOutRef.current) {
+			clearTimeout(typingTimeOutRef.current);
+		}
+		typingTimeOutRef.current = setTimeout(() => {
+			setName(value);
+		}, 500);
 	};
 
 	useEffect(() => {

@@ -9,7 +9,7 @@ import TopicPage from "./pages/TopicPage";
 
 function Course(props) {
 	const { url } = useRouteMatch();
-	const { isLoading } = useSelector((state) => state.blog);
+	const { isLoading } = useSelector((state) => state.course);
 
 	return (
 		<Spin spinning={isLoading}>

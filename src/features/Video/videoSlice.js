@@ -1,91 +1,155 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import videoApi from "api/videoApi";
-import { videoValues } from 'features/Video/initialAndValidateValues';
+import { subtitleApi, videoApi, videoCategoryApi, videoWordApi } from "api";
 
 const KEY = "video";
 
+export const fetchVideoCategories = createAsyncThunk(
+	`${KEY}/fetchVideoCategories`,
+	async (params, thunkApi) => {
+		const data = await videoCategoryApi.fetchVideoCategories();
+		return data;
+	}
+);
 
-export const fetchVideoCategory = createAsyncThunk(`${KEY}/fetchCategoryVideo`, async (params, thunkApi) => {
-  const videos = await videoApi.fetchCategoryVideo();
-  return videos;
-});
+export const deleteVideoCategory = createAsyncThunk(
+	`${KEY}/deleteVideoCategory`,
+	async (params, thunkApi) => {
+		const { categoryId } = params;
+		await videoCategoryApi.deleteVideoCategory(categoryId);
+		return categoryId;
+	}
+);
 
-export const deleteCategory = createAsyncThunk(
-  'deleteVideoCategory',
-  async (params, thunkApi) => {
-    const { categoryId } = params;
-    await videoApi.deleteCategoryVideo(categoryId);
-    return categoryId;
-  }
-)
+export const fetchVideos = createAsyncThunk(
+	`${KEY}/fetchVideos`,
+	async (params, thunkApi) => {
+		const data = await videoApi.fetchVideos(params);
+		return data;
+	}
+);
 
+export const fetchVideo = createAsyncThunk(
+	`${KEY}/fetchVideo`,
+	async (params, thunkApi) => {
+		const data = await videoApi.fetchVideo(params);
+		return data;
+	}
+);
 
+export const deleteVideo = createAsyncThunk(
+	`${KEY}/deleteVideo`,
+	async (params, thunkApi) => {
+		const { videoId } = params;
+		await videoApi.deleteVideo(videoId);
+		return videoId;
+	}
+);
+
+export const deleteVideoWord = createAsyncThunk(
+	`${KEY}/deleteVideoWord`,
+	async (params, thunkApi) => {
+		const { videoWordId } = params;
+		await videoWordApi.deleteVideoWord(videoWordId);
+		return videoWordId;
+	}
+);
+export const deleteSubtitle = createAsyncThunk(
+	`${KEY}/deleteSubtitle`,
+	async (params, thunkApi) => {
+		const { videoId } = params;
+		await subtitleApi.deleteSubtitle(videoId);
+		return videoId;
+	}
+);
 
 const videoSlice = createSlice({
-  name: KEY,
-  initialState: {
-    isLoading: false,
-    isCategoryFormVisible: false,
-    selectedCategoryVideo: videoValues.initial,
-    videoCategory: [],
-  },
-  reducers: {
-    setLoading: (state, action) => {
-      state.isLoading = action.payload;
-    },
-    setCategoryFormVisible: (state, action) => {
-      state.isCategoryFormVisible = action.payload;
-    },
-    setDefaultCategory: (state, action) => {
-      state.selectedCategoryVideo = videoValues.initial;
-    },
+	name: KEY,
+	initialState: {
+		isLoading: false,
+		videoCategories: [],
+		videosPage: {},
+		videoDetails: {},
+	},
+	reducers: {
+		setLoading: (state, action) => {
+			state.isLoading = action.payload;
+		},
+	},
+	extraReducers: {
+		[fetchVideoCategories.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-    addCategoryVideo: (state, action) => {
-      state.videoCategory.push(action.payload);
-    },
-    setCategoryUpdate: (state, action) => {
-      state.selectedCategoryVideo = action.payload;
+		[fetchVideoCategories.fulfilled]: (state, action) => {
+			state.isLoading = false;
+			state.videoCategories = action.payload;
+		},
+		[fetchVideos.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-    },
+		[fetchVideos.fulfilled]: (state, action) => {
+			state.isLoading = false;
+			state.videosPage = action.payload;
+		},
+		[fetchVideo.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-    updateCategoryVideo: (state, action) => {
-      const video = action.payload;
+		[fetchVideo.fulfilled]: (state, action) => {
+			state.isLoading = false;
+			state.videoDetails = action.payload;
+		},
 
-      const index = state.videoCategory.findIndex((videoEle) => videoEle.id === video.id);
+		// delete VideoCategory
+		[deleteVideoCategory.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-      state.videoCategory[index] = video;
-    }
-  },
-  extraReducers: {
-    [fetchVideoCategory.pending]: (state, action) => {
-      state.isLoading = true;
-    },
-    [fetchVideoCategory.rejected]: (state, action) => {
-      state.isLoading = false;
-    },
-    [fetchVideoCategory.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.videoCategory = action.payload;
-    },
-    [deleteCategory.fulfilled]: (state, action) => {
-      state.isLoading = false;
-      state.videoCategory = state.videoCategory.filter(
-        element => element.id !== action.payload
-      );
-    },
+		[deleteVideoCategory.fulfilled]: (state, action) => {
+			state.isLoading = false;
+		},
 
-    [deleteCategory.pending]: (state, action) => {
-      state.isLoading = true;
-    },
+		[deleteVideoCategory.rejected]: (state, action) => {
+			state.isLoading = false;
+		},
+		// delete Video
+		[deleteVideo.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-    [deleteCategory.rejected]: (state, action) => {
-      state.isLoading = false;
-    },
+		[deleteVideo.fulfilled]: (state, action) => {
+			state.isLoading = false;
+		},
 
+		[deleteVideo.rejected]: (state, action) => {
+			state.isLoading = false;
+		},
+		// delete Video Word
+		[deleteVideoWord.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
+		[deleteVideoWord.fulfilled]: (state, action) => {
+			state.isLoading = false;
+		},
 
+		[deleteVideoWord.rejected]: (state, action) => {
+			state.isLoading = false;
+		},
+		// delete Subtitle
+		[deleteSubtitle.pending]: (state, action) => {
+			state.isLoading = true;
+		},
 
-  },
+		[deleteSubtitle.fulfilled]: (state, action) => {
+			state.isLoading = false;
+		},
+
+		[deleteSubtitle.rejected]: (state, action) => {
+			state.isLoading = false;
+		},
+	},
 });
 
 const { reducer, actions } = videoSlice;

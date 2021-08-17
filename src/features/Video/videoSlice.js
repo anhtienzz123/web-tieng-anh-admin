@@ -153,5 +153,12 @@ const videoSlice = createSlice({
 });
 
 const { reducer, actions } = videoSlice;
-export const { setLoading, setCategoryUpdate, updateCategoryVideo, addCategoryVideo, setCategoryFormVisible, setDefaultCategory } = actions;
+export const {
+	setLoading,
+	setCategoryUpdate,
+	updateCategoryVideo,
+	addCategoryVideo,
+	setCategoryFormVisible,
+	setDefaultCategory,
+} = actions;
 export default reducer;

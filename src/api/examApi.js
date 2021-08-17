@@ -3,38 +3,34 @@ import axiosClient from "./axiosClient";
 const BASE_URL = "/admin/exams";
 
 const examApi = {
-	fetchVideos: (params) => {
-		return axiosClient.get("/videos", { params });
+	fetchExams: (params) => {
+		return axiosClient.get(BASE_URL, { params });
 	},
 
-	fetchVideo: (slug) => {
-		const url = `/videos/${slug}`;
-		return axiosClient.get(url);
+	fetchBooks: (params) => {
+		return axiosClient.get("/books");
 	},
 
-	addVideo: (video) => {
-		return axiosClient.post(BASE_URL, video);
+	addExam: (exam, stts) => {
+		return axiosClient.post(BASE_URL, exam, {
+			params: { stts },
+		});
 	},
 
-	updateVideo: (id, video) => {
+	updateExam: (id, exam) => {
 		const url = `${BASE_URL}/${id}`;
-		return axiosClient.put(url, video);
+		return axiosClient.put(url, exam);
 	},
 
-	deleteVideo: (id) => {
+	deleteExam: (id) => {
 		const url = `${BASE_URL}/${id}`;
 		return axiosClient.delete(url);
 	},
 
-	updateVideoImage: (id, image) => {
-		const url = `${BASE_URL}/${id}/image`;
-		return axiosClient.put(url, image);
-	},
-	updateVideoFile: (id, video) => {
-		const url = `${BASE_URL}/${id}/video`;
-		console.log(url);
-
-		return axiosClient.put(url, video);
+	updateExamAudio: (id, audio) => {
+		const url = `${BASE_URL}/${id}/audio`;
+		console.log(audio);
+		return axiosClient.put(url, audio);
 	},
 };
 

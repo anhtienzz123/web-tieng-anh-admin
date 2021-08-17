@@ -46,7 +46,6 @@ const renderCourseMenu = () => {
 		</SubMenu>
 	);
 };
-
 const renderVideoMenu = () => {
 	return (
 		<SubMenu key="video" icon={<VideoCameraOutlined />} title="Quản lý Video">

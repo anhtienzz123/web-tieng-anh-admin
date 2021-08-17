@@ -27,7 +27,7 @@ function UploadField(props) {
 
 	const handleAction = (file) => {
 		const formData = new FormData();
-		formData.append("sound", file);
+		formData.append(name, file);
 
 		const changeEvent = {
 			target: {

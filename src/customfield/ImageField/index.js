@@ -12,6 +12,8 @@ ImageField.propTypes = {
   titleCol: PropTypes.number,
   inputCol: PropTypes.number,
   isRequire: PropTypes.bool,
+  heightPreview: PropTypes.number,
+  widthPreview: PropTypes.number,
 };
 
 ImageField.defaultProps = {
@@ -19,15 +21,20 @@ ImageField.defaultProps = {
   titleCol: 24,
   inputCol: 24,
   isRequire: false,
+  heightPreview: 400,
+  widthPreview: 500
 };
 
-function ImageField({ title, titleCol, inputCol, isRequire, field }) {
+function ImageField({ title, titleCol, inputCol, isRequire, field, widthPreview, heightPreview }) {
   const { name, value } = field;
   const [fileList, setFileList] = useState([]);
   const [image, setImage] = useState(value);
 
   const handleChange = async (info) => {
     const { file } = info;
+    console.log(file)
+    console.log(file.url);
+    console.log(file.preview);
 
     if (!file.url && !file.preview) {
       file.preview = await commonFuc.getBase64(file.originFileObj);
@@ -79,7 +86,7 @@ function ImageField({ title, titleCol, inputCol, isRequire, field }) {
           {fileList.length >= 1 ? null : uploadButton}
         </Upload>
 
-        {image && <Image src={image} width={500} height={400} />}
+        {image && <Image src={image} width={widthPreview} height={heightPreview} />}
       </Col>
     </Row>
   );

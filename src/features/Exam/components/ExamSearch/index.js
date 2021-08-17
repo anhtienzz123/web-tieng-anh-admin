@@ -44,7 +44,7 @@ function ExamSearch(props) {
 			<Col xs={24} sm={24} md={24} lg={10} xl={10}>
 				<Row align="middle" gutter={[8, 8]}>
 					<Col xs={24} sm={24} md={6} lg={6} xl={6}>
-						<Text strong>Tên bài thi: </Text>
+						<Text strong>Tên đề thi: </Text>
 					</Col>
 					<Col xs={24} sm={24} md={18} lg={18} xl={18}>
 						<Input
@@ -59,7 +59,7 @@ function ExamSearch(props) {
 			<Col xs={24} sm={24} md={24} lg={10} xl={10}>
 				<Row align="middle" gutter={[8, 8]}>
 					<Col xs={24} sm={24} md={6} lg={6} xl={6}>
-						<Text strong>Tên sách: </Text>
+						<Text strong>Bộ đề: </Text>
 					</Col>
 					<Col xs={24} sm={24} md={18} lg={18} xl={18}>
 						<Select

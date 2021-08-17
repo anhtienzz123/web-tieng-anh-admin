@@ -93,7 +93,6 @@ const courseSlice = createSlice({
 			state.isLoading = false;
 
 			state.coursesPage = action.payload;
-			// state.courses = action.payload.data;
 		},
 
 		[fetchTopics.pending]: (state, action) => {
@@ -119,17 +118,12 @@ const courseSlice = createSlice({
 		[fetchCourse.fulfilled]: (state, action) => {
 			state.isLoading = false;
 			state.coursesDetail = action.payload;
-			// state.selectedBlog = action.payload;
 		},
 		[deleteCourse.pending]: (state, action) => {
 			state.isLoading = true;
 		},
 		[deleteCourse.fulfilled]: (state, action) => {
 			state.isLoading = false;
-
-			// state.blogs = state.blogs.filter(
-			// 	(blogEle) => blogEle.id !== action.payload
-			// );
 		},
 		[deleteCourse.rejected]: (state, action) => {
 			state.isLoading = false;
@@ -137,9 +131,6 @@ const courseSlice = createSlice({
 
 		[deleteTopic.fulfilled]: (state, action) => {
 			state.isLoading = false;
-			// state.blogCategories = state.blogCategories.filter(
-			// 	(element) => element.id !== action.payload
-			// );
 		},
 
 		[deleteTopic.pending]: (state, action) => {
@@ -157,6 +148,5 @@ const courseSlice = createSlice({
 });
 
 const { reducer, actions } = courseSlice;
-export const { setLoading, setSelectedBlogDefault, setSelectedTopicDefault } =
-	actions;
+export const { setLoading } = actions;
 export default reducer;

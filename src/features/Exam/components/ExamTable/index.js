@@ -17,7 +17,7 @@ function ExamTable(props) {
 				dataIndex="stt"
 				key="stt"
 			/>
-			<Column title="Tên bài thi" dataIndex="name" key="name" />
+			<Column title="Tên đề thi" dataIndex="name" key="name" />
 			<Column title="Tên sách" dataIndex="bookName" key="bookName" />
 			<Column
 				key="action"

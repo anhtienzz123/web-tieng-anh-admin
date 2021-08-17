@@ -41,7 +41,10 @@ function CourseModal(props) {
 		}
 
 		if (response.error) {
-			message.error(response.error.name);
+			const error = response.error;
+			for (const property in error) {
+				message.error(error[property]);
+			}
 		} else {
 			message.info(typeof image);
 			if (image && typeof image === "object") {

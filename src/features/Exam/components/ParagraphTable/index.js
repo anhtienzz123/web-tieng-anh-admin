@@ -1,5 +1,6 @@
 import { Image, Table } from "antd";
 import Column from "antd/lib/table/Column";
+import imageNotFound from "assets/images/image-not-found.svg";
 import PropTypes from "prop-types";
 import React from "react";
 import ParagraphAction from "../ParagraphAction";
@@ -53,7 +54,15 @@ function ParagraphTable(props) {
 				dataIndex="image"
 				key="image"
 				align="center"
-				render={(_, record) => <Image width={200} src={record.image} />}
+				render={(_, record) => (
+					<Image
+						width={120}
+						src={record.image ? record.image : imageNotFound}
+						height={80}
+						fallback={imageNotFound}
+						style={{ objectFit: "cover", backgroundPosition: "center center" }}
+					/>
+				)}
 			/>
 			<Column
 				key="action"

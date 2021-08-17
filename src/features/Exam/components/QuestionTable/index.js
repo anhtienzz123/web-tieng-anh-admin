@@ -1,8 +1,8 @@
 import { Image, Table } from "antd";
 import Column from "antd/lib/table/Column";
+import imageNotFound from "assets/images/image-not-found.svg";
 import PropTypes from "prop-types";
 import React from "react";
-import ExamAction from "../ExamAction";
 import QuestionAction from "../QuestionAction";
 
 function QuestionTable(props) {
@@ -29,8 +29,21 @@ function QuestionTable(props) {
 				key="content"
 				render={(_, record) => {
 					const content = record.content;
-					const isImage = content.startsWith("http");
-					return isImage ? <Image width={200} src={content} /> : <>{content}</>;
+					const isImage = content?.startsWith("http");
+					return isImage ? (
+						<Image
+							width={120}
+							src={content ? content : imageNotFound}
+							height={80}
+							fallback={imageNotFound}
+							style={{
+								objectFit: "cover",
+								backgroundPosition: "center center",
+							}}
+						/>
+					) : (
+						<>{content}</>
+					);
 				}}
 			/>
 			<Column

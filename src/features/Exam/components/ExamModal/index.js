@@ -98,7 +98,7 @@ function ExamModal(props) {
 									<FastField
 										name="name"
 										component={InputField}
-										title="Tên bài thi"
+										title="Tên đề thi"
 										titleCol={6}
 										maxLength={200}
 										inputCol={18}
@@ -107,7 +107,7 @@ function ExamModal(props) {
 									<FastField
 										name="bookId"
 										component={SelectedField}
-										title="Tên sách"
+										title="Bộ đề"
 										options={books.map((book) => ({
 											key: book.id,
 											value: book.name,

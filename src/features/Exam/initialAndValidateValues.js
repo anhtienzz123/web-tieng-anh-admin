@@ -14,8 +14,8 @@ export const examValues = {
 	},
 
 	validationSchema: Yup.object().shape({
-		name: Yup.string().required("Tên bài thi không được bỏ trống"),
-		bookId: Yup.number().min(1, "Tên sách không được bỏ trống"),
+		name: Yup.string().required("Tên đề thi không được bỏ trống"),
+		bookId: Yup.number().min(1, "Bộ đề không được bỏ trống"),
 	}),
 };
 

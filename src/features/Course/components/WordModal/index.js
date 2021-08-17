@@ -50,8 +50,10 @@ function WordModal(props) {
 		}
 
 		if (response.error) {
-			message.error(response.error.name);
-			console.log({ response });
+			const error = response.error;
+			for (const property in error) {
+				message.error(error[property]);
+			}
 		} else {
 			const wordId = isAddMode ? response.id : id;
 
